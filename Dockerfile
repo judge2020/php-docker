@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y \
     pngquant \
     gifsicle \
     gpg \
+    git \
     apt-transport-https \
     lsb-release \
     libpq-dev \
