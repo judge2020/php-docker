@@ -3,7 +3,7 @@ FROM php:7.4-fpm
 # Installing dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
-    mysql-client \
+    default-mysql-client \
     libpng-dev \
     libjpeg62-turbo-dev \
     libfreetype6-dev \
@@ -18,12 +18,14 @@ RUN apt-get update && apt-get install -y \
     apt-transport-https \
     lsb-release \
     libpq-dev \
-    libicu-dev && \
-    curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
+    libicu-dev \
+    libonig-dev \
+    libzip-dev && \
+    curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
     apt-get install -y nodejs && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN pecl install xdebug-2.7.0beta1 \
+RUN pecl install xdebug \
     && docker-php-ext-enable xdebug \
     && echo "error_reporting = E_ALL" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && echo "display_startup_errors = On" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
@@ -35,10 +37,8 @@ RUN pecl install xdebug-2.7.0beta1 \
     && echo "xdebug.profiler_output_dir=/tmp/snapshots" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && echo "xdebug.profiler_enable_trigger=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
-RUN docker-php-ext-enable xdebug
-
 # Installing extensions
-RUN docker-php-ext-configure gd --with-gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN docker-php-ext-configure intl
 RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl bcmath gettext gd intl pdo pdo_pgsql opcache
 
