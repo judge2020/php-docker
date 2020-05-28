@@ -40,7 +40,7 @@ RUN docker-php-ext-enable xdebug
 # Installing extensions
 RUN docker-php-ext-configure gd --with-gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/
 RUN docker-php-ext-configure intl
-RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl bcmath gettext gd intl pdo pdo_pgsql
+RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl bcmath gettext gd intl pdo pdo_pgsql opcache
 
 # Installing composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
